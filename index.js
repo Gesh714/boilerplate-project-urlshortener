@@ -1,8 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const connectDB = require('./config/db')
 const app = express();
-const nanoid = require('nanoid');
+
+//conectar a la base de datos
+connectDB();
+
+app.use(express.json({ extended: false }));
+
+app.use('/', require('./routes/index'));
+app.use('/api/url', require('./routes/url'));
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -14,18 +22,6 @@ app.use('/public', express.static(`${process.cwd()}/public`));
 app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
-
-// Your first API endpoint
-  app.post('/api/shorturl', function (req, res) {
-    const longUrl = req.query.url;
-    if (!longUrl) {
-      return res.status(400).json({ error: 'Debe proporcionar una URL' });
-    } else {
-      const shortUrl = nanoid();
-      res.json({ shortUrl });
-    }
-  });
-
 
 app.listen(port, function () {
   console.log(`Listening on port ${port}`);
