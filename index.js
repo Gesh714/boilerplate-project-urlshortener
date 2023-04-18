@@ -16,7 +16,6 @@ app.get('/', function (req, res) {
 });
 
 // Your first API endpoint
-const shortUrl = () => {
   app.post('/api/shorturl', function (req, res) {
     const longUrl = req.query.url;
     if (!longUrl) {
@@ -26,7 +25,6 @@ const shortUrl = () => {
       res.json({ shortUrl });
     }
   });
-}
 
 
 app.listen(port, function () {
